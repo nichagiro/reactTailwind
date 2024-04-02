@@ -7,7 +7,7 @@ const meta: Meta<typeof Alert> = {
   parameters: {
     layout: 'padded',
   },
-  tags: ['autodocs']
+  tags: ['autodocs'],  
 }
 
 type Story = StoryObj<typeof meta>;

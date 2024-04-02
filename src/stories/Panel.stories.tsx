@@ -11,6 +11,9 @@ const meta: Meta<typeof Panel> = {
   argTypes: {
     children: {
       control: { disabled: true },
+    },
+    upDown:{
+      description: "Collapse"
     }
   }
 }

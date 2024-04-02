@@ -1,7 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useState } from "react"
 import { ITabs, bg, clas, styleSel } from "./static";
 import { ColorsList } from "../../types";
-
 interface Props {
   data: ITabs[],
   defaultValue?: number | string,
@@ -10,7 +9,7 @@ interface Props {
   changeTab?: (data: ITabs) => void,
 }
 
-const Tabs: FC<Props> = ({ data, defaultValue, changeTab, disabled, color }) => {
+const Tabs: FC<Props> = ({ data, defaultValue, changeTab, disabled=false, color }) => {
   const [current, setCurrent] = useState<ITabs>();
 
   const hanldeClick = useCallback((item: ITabs) => {

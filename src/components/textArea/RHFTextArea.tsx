@@ -4,13 +4,13 @@ import { useFormContext } from "react-hook-form"
 import { ColorsList } from '../../types'
 import { bg, classField } from './static'
 
-interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface Props extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "className" | "id"> {
   label?: string,
   name: string,
   color: ColorsList
 }
 
-const TextArea: FC<Props> = ({ label, name, color, ...props }) => {
+const RHFTextArea: FC<Props> = ({ label, name, color, ...props }) => {
   const { register, formState: { errors } } = useFormContext();
   const desing = errors[name] ? "focus:border-red-400 focus:ring-red-300 bg-red-50 border-red-300" : bg[color];
 
@@ -23,9 +23,7 @@ const TextArea: FC<Props> = ({ label, name, color, ...props }) => {
         {...props}
         {...register(name)}
         id={name}
-        aria-invalid={!!errors[name]}
         className={`${desing} ${classField}`}
-
       />
       <div className="text-red-700 text-bold ps-1">
         <ErrorMessage errors={errors} name={name} />
@@ -34,4 +32,4 @@ const TextArea: FC<Props> = ({ label, name, color, ...props }) => {
   )
 }
 
-export default TextArea;
+export default RHFTextArea;

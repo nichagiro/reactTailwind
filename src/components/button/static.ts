@@ -26,4 +26,61 @@ export const bg: Color = {
   neutral: "bg-neutral-600 hover:bg-neutral-700 active:bg-neutral-500 focus:border-neutral-400 focus:ring-neutral-300 focus:ring-neutral-40 disabled:bg-neutral-400",
 }
 
-export const style = "inline-block rounded px-5 py-3 text-sm font-medium text-white transition hover:scale-110 hover:shadow-xl focus:outline-none focus:ring focus:ring"
+export const bgSoft: Color = {
+  rose: "bg-rose-50 text-rose-600",
+  gray: "bg-gray-50 text-gray-600",
+  red: "bg-red-50 text-red-600",
+  orange: "bg-orange-50 text-orange-600",
+  yellow: "bg-yellow-50 text-yellow-600",
+  green: "bg-green-50 text-green-600",
+  teal: "bg-teal-50 text-teal-600",
+  blue: "bg-blue-50 text-blue-600",
+  indigo: "bg-indigo-50 text-indigo-600",
+  purple: "bg-purple-50 text-purple-600",
+  pink: "bg-pink-50 text-pink-600",
+  lime: "bg-lime-50 text-lime-600",
+  cyan: "bg-cyan-50 text-cyan-600",
+  sky: "bg-sky-50 text-sky-600",
+  fuchsia: "bg-fuchsia-50 text-fuchsia-600",
+  slate: "bg-slate-50 text-slate-600",
+  zinc: "bg-zinc-50 text-zinc-600",
+  stone: "bg-stone-50 text-stone-600",
+  emerald: "bg-emerald-50 text-emerald-600",
+  amber: "bg-amber-50 text-amber-600",
+  neutral: "bg-neutral-50 text-neutral-600",
+}
+
+export const bgSimple: Color = {
+  rose: "border-rose-600 text-rose-600 hover:bg-rose-600 active:bg-rose-500",
+  gray: "border-gray-600 text-gray-600 hover:bg-gray-600 active:bg-gray-500",
+  red: "border-red-600 text-red-600 hover:bg-red-600 active:bg-red-500",
+  orange: "border-orange-600 text-orange-600 hover:bg-orange-600 active:bg-orange-500",
+  yellow: "border-yellow-600 text-yellow-600 hover:bg-yellow-600 active:bg-yellow-500",
+  green: "border-green-600 text-green-600 hover:bg-green-600 active:bg-green-500",
+  teal: "border-teal-600 text-teal-600 hover:bg-teal-600 active:bg-teal-500",
+  blue: "border-blue-600 text-blue-600 hover:bg-blue-600 active:bg-blue-500",
+  indigo: "border-indigo-600 text-indigo-600 hover:bg-indigo-600 active:bg-indigo-500",
+  purple: "border-purple-600 text-purple-600 hover:bg-purple-600 active:bg-purple-500",
+  pink: "border-pink-600 text-pink-600 hover:bg-pink-600 active:bg-pink-500",
+  lime: "border-lime-600 text-lime-600 hover:bg-lime-600 active:bg-lime-500",
+  cyan: "border-cyan-600 text-cyan-600 hover:bg-cyan-600 active:bg-cyan-500",
+  sky: "border-sky-600 text-sky-600 hover:bg-sky-600 active:bg-sky-500",
+  fuchsia: "border-fuchsia-600 text-fuchsia-600 hover:bg-fuchsia-600 active:bg-fuchsia-500",
+  slate: "border-slate-600 text-slate-600 hover:bg-slate-600 active:bg-slate-500",
+  zinc: "border-zinc-600 text-zinc-600 hover:bg-zinc-600 active:bg-zinc-500",
+  stone: "border-stone-600 text-stone-600 hover:bg-stone-600 active:bg-stone-500",
+  emerald: "border-emerald-600 text-emerald-600 hover:bg-emerald-600 active:bg-emerald-500",
+  amber: "border-amber-600 text-amber-600 hover:bg-amber-600 active:bg-amber-500",
+  neutral: "border-neutral-600 text-neutral-600 hover:bg-neutral-600 active:bg-neutral-500",
+}
+
+export const sizeClass = {
+  "2xl": "py-6",
+  "xl": "py-5",
+  "lg": "py-4",
+  "md": "py-3 text-sm",
+  "sm": "py-2 text-sm",
+}
+
+export const styleButton = "px-3 rounded font-medium focus:outline-none focus:ring focus:ring"
+

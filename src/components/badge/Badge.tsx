@@ -1,16 +1,15 @@
-import { FC, HTMLAttributes } from "react"
+import { FC } from "react"
 import { bg } from "./static"
 import { ColorsList } from "../../types"
 
-interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, "className"> {
+interface Props {
   message: string,
   color: ColorsList
 }
 
-const Badge: FC<Props> = ({ color, message, ...props }) => {
-
+const Badge: FC<Props> = ({ color, message }) => {
   return (
-    <span {...props} className={`${bg[color]} whitespace-nowrap rounded-full px-2.5 py-0.5 text-sm`} >
+    <span className={`${bg[color]} whitespace-nowrap rounded-full px-2.5 py-0.5 text-sm`} >
       {message}
     </span>
   )

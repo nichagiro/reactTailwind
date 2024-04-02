@@ -1,22 +1,55 @@
-import { ButtonHTMLAttributes, FC, ReactNode, } from 'react'
-import { ActionType, ColorsList } from '../../types';
-import { bg, style } from './static';
+import { FC, HTMLAttributes, ReactNode, useMemo, } from 'react'
+import { ActionType, ColorsList, Sizes } from '../../types';
+import { bg, bgSimple, bgSoft, styleButton, sizeClass } from './static';
 import ButtonIcon from './ButtonIcon';
+import SpinIcon from '../../icons/SpinIcon';
 
-interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className"> {
+type Variant = "normal" | "soft" | "simple"
+type ButtonType = "button" | "submit" | "reset";
+
+interface Props extends HTMLAttributes<HTMLButtonElement> {
+  onClick?: () => void,
   children: ReactNode;
   color: ColorsList;
-  icon?: ActionType
+  icon?: ActionType,
+  variant?: Variant,
+  type?: ButtonType
+  size?: Sizes,
+  loading?: boolean,
+  disabled?: boolean
 }
 
-const Button: FC<Props> = ({ children, color, icon, ...props }) => {
+const Button: FC<Props> = ({ children, color, icon, size = "md", variant = "normal", disabled = false, loading = false, ...props }) => {
+
+  const design = useMemo(() => {
+    switch (variant) {
+      case "soft":
+        return bgSoft[color]
+      case "simple":
+        return `${bgSimple[color]} border hover:text-white`
+      default:
+        return `${bg[color]} text-white transition hover:scale-105 hover:shadow`
+    }
+  }, [variant, color])
+
   return (
     <button
       {...props}
-      className={`${bg[color]} ${style}`}
+      className={`${design} ${styleButton} ${sizeClass[size]}`}
+      disabled={disabled || loading}
     >
-      <div className='flex gap-1'>
-        {icon && <ButtonIcon icon={icon} />} {children}
+      <div className='flex items-center	gap-1'>
+        {
+          loading ? (
+            <>
+              <SpinIcon /> {children}
+            </>
+          ) : (
+            <>
+              {icon && <ButtonIcon icon={icon} />} {children}
+            </>
+          )
+        }
       </div>
     </button>
   );

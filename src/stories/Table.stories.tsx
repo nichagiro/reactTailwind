@@ -10,6 +10,11 @@ const meta: Meta<typeof Table> = {
     layout: 'padded',
   },
   tags: ['autodocs'],
+  argTypes:{
+    excel:{
+      description: "Export Button Excel"
+    }
+  }
 }
 
 type Story = StoryObj<typeof meta>;
@@ -29,6 +34,16 @@ export const Example: Story = {
       column: "id",
       direction: "asc"
     },
+  }
+}
+
+export const Loading: Story = {
+  args: {
+    color: "indigo",
+    columns: columns,
+    data: data,
+    itemsPerPage: 5,
+    loading: true
   }
 }
 

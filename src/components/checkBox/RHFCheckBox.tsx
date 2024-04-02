@@ -1,16 +1,17 @@
-import { FC, InputHTMLAttributes, } from 'react'
+import { FC, HTMLAttributes, } from 'react'
 import { ErrorMessage } from "@hookform/error-message"
-import { useFormContext } from "react-hook-form"
+import { RegisterOptions, useFormContext } from "react-hook-form"
 import { ColorsList } from '../../types'
 import { bg, style } from './static'
 
-interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "classname" | "id"> {
-  name: string,
+interface Props extends Omit<HTMLAttributes<HTMLInputElement>, "id" | "type" | "className"> {
   label?: string,
-  color: ColorsList
+  registerOptions?: RegisterOptions,
+  name: string,
+  color: ColorsList,
 }
 
-const Checkbox: FC<Props> = ({ label, name, color = "indigo", ...props }) => {
+const RHFCheckbox: FC<Props> = ({ label, name, color, registerOptions, ...props }) => {
   const { register, formState: { errors } } = useFormContext();
   const desing = errors[name] ? "focus:border-red-400 focus:ring-red-300 bg-red-50 border-red-300" : bg[color];
 
@@ -19,7 +20,7 @@ const Checkbox: FC<Props> = ({ label, name, color = "indigo", ...props }) => {
       <div className='flex flex-wrap'>
         <input
           {...props}
-          {...register(name)}
+          {...register(name, registerOptions)}
           id={name}
           type='checkbox'
           className={`${desing} ${style}`}
@@ -35,5 +36,5 @@ const Checkbox: FC<Props> = ({ label, name, color = "indigo", ...props }) => {
   )
 }
 
-export default Checkbox;
+export default RHFCheckbox;
 

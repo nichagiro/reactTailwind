@@ -26,4 +26,13 @@ export const bg: Color = {
   neutral: "focus:border-neutral-400 focus:ring-neutral-300"
 };
 
-export const selectClass = "disabled:bg-gray-100 border-gray-300 mt-1.5 w-full rounded-lg border p-3 text-gray-700 sm:text-sm focus:outline-none focus:ring focus:ring-opacity-40"
+
+export const sizeClass = {
+  "2xl": "py-6",
+  "xl": "py-5",
+  "lg": "py-4",
+  "md": "py-3",
+  "sm": "py-2",
+}
+
+export const selectClass = "disabled:bg-gray-100 border-gray-300 mt-1.5 w-full rounded-lg border text-gray-700 sm:text-sm focus:outline-none focus:ring focus:ring-opacity-40"

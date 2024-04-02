@@ -7,6 +7,7 @@ import ExportIcon from "../../icons/ExportIcon"
 import FileIcon from "../../icons/FileIcon"
 import PencilIcon from "../../icons/PencilIcon"
 import SuccessIcon from "../../icons/SuccessIcon"
+import SearchIcon from "../../icons/SearchIcon"
 
 const ButtonIcon: FC<{ icon: ActionType }> = ({ icon }) => {
   const Component = useMemo(() => {
@@ -21,6 +22,8 @@ const ButtonIcon: FC<{ icon: ActionType }> = ({ icon }) => {
         return <SuccessIcon className="w-5 h-5" />
       case "update":
         return <PencilIcon className="w-5 h-5" />
+      case "search":
+        return <SearchIcon className="w-5 h-5" />
     }
   }, [icon])
 

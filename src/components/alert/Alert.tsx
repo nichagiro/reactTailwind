@@ -1,10 +1,10 @@
-import { FC, HTMLAttributes, useState } from "react"
+import { FC, useState } from "react"
 import { styles } from "./static"
 import { ColorsList, Status } from "../../types"
 import CloseIcon from "../../icons/CloseIcon"
 import AlertIcon from "./AlertIcon"
 
-interface Props extends Omit<HTMLAttributes<HTMLDivElement>, "role" | "className"> {
+interface Props {
   title: string,
   color: ColorsList,
   message?: string,
@@ -12,12 +12,12 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, "role" | "className
   icon?: Status
 }
 
-const Alert: FC<Props> = ({ title, color, message, icon, close, ...props }) => {
+const Alert: FC<Props> = ({ title, color, message, icon, close = false }) => {
   const [display, setDisplay] = useState<boolean>(true);
 
   return (
     display ?
-      <div {...props} role="alert" className={`${styles[color]?.div} rounded border-s-4 p-4 w-full`} >
+      <div role="alert" className={`${styles[color]?.div} rounded border-s-4 p-4 w-full`} >
         <div className={`${styles[color]?.strong} flex justify-between`}>
           <strong className="block font-medium flex gap-2">
             {icon && <AlertIcon icon={icon} />} {title}

@@ -6,7 +6,6 @@ import useDebounce from '../../hooks/useDebounce';
 
 // components
 import Pagination from '../pagination/Pagination';
-import Alert from '../alert/Alert';
 import Button from '../button/Button';
 
 // utils
@@ -19,6 +18,7 @@ import { bg, bgCheck, checkClas } from './static';
 import ExportIcon from '../../icons/ExportIcon';
 import DownIcon from '../../icons/DownIcon';
 import UpIcon from '../../icons/UpIcon';
+import SpinIcon from '../../icons/SpinIcon';
 
 interface DefaultOrder {
   column: string | null,
@@ -37,21 +37,22 @@ interface TableRow {
 }
 
 interface TableProps {
-  columns: TableColumn[];
-  data: TableRow[];
-  onSelect?: (rows: TableRow[]) => void;
-  defaultSelects?: Array<string | number>;
-  defaultOrder?: DefaultOrder
-  multi?: boolean;
-  itemsPerPage?: number;
+  columns: TableColumn[],
+  data: TableRow[],
+  onSelect?: (rows: TableRow[]) => void,
+  defaultSelects?: Array<string | number>,
+  defaultOrder?: DefaultOrder,
+  multi?: boolean,
+  itemsPerPage?: number,
   excel?: boolean,
-  resetSelection?: boolean;
-  color: ColorsList
+  resetSelection?: boolean,
+  color: ColorsList,
+  loading?: boolean
 }
 
 const Table: React.FC<TableProps> = ({
-  columns, data, defaultSelects, onSelect, multi, color,
-  defaultOrder, excel, resetSelection, itemsPerPage = 10
+  columns, data, defaultSelects, onSelect, multi = false, color, loading = false,
+  defaultOrder, excel = true, resetSelection = false, itemsPerPage = 10
 }) => {
   const [selectedRows, setSelectedRows] = useState<(Array<string | number>)>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -202,108 +203,113 @@ const Table: React.FC<TableProps> = ({
 
   return (
     <>
-      {
-        data.length > 0 ?
-          <div className="container p-4 mx-auto border shadow rounded-lg overflow-x-auto">
-            <div className='flex flex-wrap gap-6 mb-6'>
-              {/* Input de búsqueda */}
-              <input
-                type='search'
-                placeholder='Buscar...'
-                className={`${inputClas} ${inputStyle[color]}`}
-                onChange={e => setSearchTerm(e.target.value)}
-              />
-              {
-                // excel button
-                excel &&
-                <div className='mt-1.5'>
-                  <Button color={color} onClick={onExcel} type='button'>
-                    <ExportIcon className='w-5 h-5' />
-                    Excel
-                  </Button>
-                </div>
-              }
-            </div>
-            {/* Tabla */}
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-4 py-3.5 text-sm font-bold text-gray-500 dark:text-gray-400 text-center">
-                    {/* Checkbox para seleccionar/deseleccionar todas las filas */}
-                    {
-                      multi && search === "" ?
-                        <input
-                          type="checkbox"
-                          onChange={toggleAllRowsSelection}
-                          checked={selectedRows.length === data.length}
-                          className={`${bgCheck[color]} ${checkClas}`}
-                        /> :
-                        "Seleccione"
-                    }
-                  </th>
-                  {/* Renderizar encabezados de columnas */}
-                  {columns.map((column) => (
-                    <th
-                      key={column.key}
-                      scope="col"
-                      className="px-4 py-3.5 cursor-pointer"
-                      onClick={() => handleSort(column.key)}
-                    >
-                      <div className='flex text-sm text-gray-500'>
-                        {/* icon order */}
-                        {
-                          sortedColumn === column.key
-                            ? (sorting.direction === 'asc'
-                              ? <DownIcon className='w-4 h-4' />
-                              : <UpIcon className='w-4 h-4' />)
-                            : ''
-                        }
-                        {column.header}
-                      </div>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700 border-none">
-                {/* Renderizar filas de datos */}
-                {filteredData.map((row, index) => (
-                  <tr key={index} className={selectedRows.includes(row.id) ? `${bg[color]} border-none` : "border-none hover:bg-slate-100"}>
-                    {/* Celda de checkbox para seleccionar/deseleccionar la fila */}
-                    <td className="px-4 py-4 text-sm whitespace-nowrap text-center">
-                      <input
-                        type="checkbox"
-                        onChange={() => toggleRowSelection(row.id)}
-                        checked={selectedRows.includes(row.id)}
-                        className={`${bgCheck[color]} ${checkClas}`}
-                      />
-                    </td>
-                    {/* Renderizar celdas de datos */}
-                    {columns.map((column) => (
-                      <td
-                        key={column.key}
-                        onClick={() => toggleRowSelection(row.id)}
-                        className="px-4 py-4 text-sm whitespace-nowrap text-center max-w-xs overflow-hidden overflow-ellipsis cursor-pointer"
-                        title={typeof row[column.key] === "string" ? row[column.key] as string : ""}
-                      >
-                        {
-                          column.jsx ? column.jsx(row) as ReactNode : row[column.key] as string
-                        }
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {
-              filteredData.length === 0 &&
-              <div className='text-center w-full my-5 text-gray-700'>
-                <p>Sin resultados</p>
-              </div>
-            }
+
+      <div className="container relative p-4 mx-auto border shadow rounded-lg overflow-x-auto">
+        <div className='flex flex-wrap gap-6 mb-6'>
+          {/* Input de búsqueda */}
+          <div>
+            <input
+              type='search'
+              placeholder='Buscar...'
+              className={`${inputClas} ${inputStyle[color]}`}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
           </div>
-          :
-          <Alert title='No hay datos...' color={color} />
-      }
+          {
+            // excel button
+            excel &&
+            <div className='mt-1.5'>
+              <Button color={color} onClick={onExcel} type='button'>
+                <ExportIcon className='w-5 h-5' />
+                Excel
+              </Button>
+            </div>
+          }
+        </div>
+        {/* Tabla */}
+        <table className={`${loading ? "opacity-50" : "opacity-100"} min-w-full divide-y divide-gray-200 dark:divide-gray-700`}>
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-4 py-3.5 text-sm font-bold text-gray-500 dark:text-gray-400 text-center">
+                {/* Checkbox para seleccionar/deseleccionar todas las filas */}
+                {
+                  multi && search === "" ?
+                    <input
+                      type="checkbox"
+                      onChange={toggleAllRowsSelection}
+                      checked={selectedRows.length === data.length}
+                      className={`${bgCheck[color]} ${checkClas}`}
+                    /> :
+                    "Seleccione"
+                }
+              </th>
+              {/* Renderizar encabezados de columnas */}
+              {columns.map((column) => (
+                <th
+                  key={column.key}
+                  scope="col"
+                  className="px-4 py-3.5 cursor-pointer"
+                  onClick={() => handleSort(column.key)}
+                >
+                  <div className='flex text-sm text-gray-500'>
+                    {/* icon order */}
+                    {
+                      sortedColumn === column.key
+                        ? (sorting.direction === 'asc'
+                          ? <DownIcon className='w-4 h-4' />
+                          : <UpIcon className='w-4 h-4' />)
+                        : ''
+                    }
+                    {column.header}
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-700 border-none">
+            {/* Renderizar filas de datos */}
+            {filteredData.map((row, index) => (
+              <tr key={index} className={selectedRows.includes(row.id) ? `${bg[color]} border-none` : "border-none hover:bg-slate-100"}>
+                {/* Celda de checkbox para seleccionar/deseleccionar la fila */}
+                <td className="px-4 py-4 text-sm whitespace-nowrap text-center">
+                  <input
+                    type="checkbox"
+                    onChange={() => toggleRowSelection(row.id)}
+                    checked={selectedRows.includes(row.id)}
+                    className={`${bgCheck[color]} ${checkClas}`}
+                  />
+                </td>
+                {/* Renderizar celdas de datos */}
+                {columns.map((column) => (
+                  <td
+                    key={column.key}
+                    onClick={() => toggleRowSelection(row.id)}
+                    className="px-4 py-4 text-sm whitespace-nowrap text-center max-w-xs overflow-hidden overflow-ellipsis cursor-pointer"
+                    title={typeof row[column.key] === "string" ? row[column.key] as string : ""}
+                  >
+                    {
+                      column.jsx ? column.jsx(row) as ReactNode : row[column.key] as string
+                    }
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {
+          loading &&
+          <div className="absolute inset-0 flex items-center justify-center mt-40">
+            <SpinIcon className='h-10 w-10' />
+          </div>
+        }
+        {
+          filteredData.length === 0 &&
+          <div className='text-center w-full my-5 text-gray-700'>
+            <p>Sin resultados</p>
+          </div>
+        }
+      </div>
+
       {/* Controles de paginación */}
       <div className="flex justify-center mt-5">
         <Pagination

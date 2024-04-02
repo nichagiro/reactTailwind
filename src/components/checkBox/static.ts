@@ -26,4 +26,4 @@ export const bg: Color = {
   neutral: "checked:bg-neutral-400 focus:border-neutral-400 focus:ring-neutral-300",
 };
 
-export const style = "disabled:bg-gray-100 rounded border bg-white px-2 py-1 border-gray-300 appearance-none focus:outline-none focus:ring focus:ring-opacity-40"
+export const style = "disabled:bg-gray-100 rounded border bg-white px-2 border-gray-300 appearance-none focus:outline-none focus:ring focus:ring-opacity-40"

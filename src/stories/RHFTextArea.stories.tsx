@@ -1,8 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react';
+// librarys
 import { FormProvider, Resolver, SubmitHandler, useForm } from 'react-hook-form';
+
+// type
+import type { Meta, StoryObj } from '@storybook/react';
 import { FC, ReactNode } from 'react';
-import { DevTool } from "@hookform/devtools";
-import Input from '../components/input/Input';
+
+// Rcomponents
+import TextArea from '../components/textArea/RHFTextArea';
 import Button from '../components/button/Button';
 
 const onSubmit: SubmitHandler<{ input: string }> = async data => {
@@ -30,19 +34,18 @@ const Form: FC<{ children: ReactNode }> = ({ children }) => {
       <FormProvider {...methods} >
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           {children}
-          <div className='pt-4'>
-            <Button color='amber'>Click</Button>
+          <div className='pt-4 flex justify-end'>
+            <Button color='slate'>Click</Button>
           </div>
         </form>
       </FormProvider>
-      <DevTool control={methods.control} />
     </>
   )
 }
 
-const meta: Meta<typeof Input> = {
-  component: Input,
-  title: 'UI/Input',
+const meta: Meta<typeof TextArea> = {
+  component: TextArea,
+  title: 'React Hook Form/TextArea',
   parameters: {
     layout: 'padded',
   },
@@ -57,7 +60,7 @@ const meta: Meta<typeof Input> = {
   argTypes: {
     name: {
       control: { disabled: true },
-    }
+    },
   }
 }
 
@@ -66,8 +69,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: "input",
-    label: "Input",
-    color: "indigo"
+    label: "TextArea",
+    color: "indigo",
   }
 }
 
