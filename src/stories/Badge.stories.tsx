@@ -8,7 +8,12 @@ const meta: Meta<typeof Badge> = {
   parameters: {
     layout: 'padded',
   },
-  tags: ['autodocs']
+  tags: ['autodocs'],
+  argTypes: {
+    message: {
+      description: "String or JSX element"
+    }
+  }
 }
 
 type Story = StoryObj<typeof meta>;

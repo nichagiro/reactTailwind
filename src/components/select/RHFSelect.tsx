@@ -30,7 +30,7 @@ interface Props extends Omit<HTMLAttributes<HTMLSelectElement>, "id" | "classNam
 const RHFSelect: FC<Props> = ({ options, name, color, registerOptions, icon, label, loading = false, size = "md", disabled = false, ...props }) => {
   const { register, formState: { errors } } = useFormContext();
   const desing = errors[name] ? "focus:border-red-400 focus:ring-red-300 bg-red-50 border-red-300" : bg[color];
-  const padding = icon ? "px-10" : "px-3"
+  const padding = icon || loading ? "px-10" : "px-3"
 
   return (
     <div>

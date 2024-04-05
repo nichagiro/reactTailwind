@@ -19,7 +19,7 @@ export const columns= [
   { header: "Nationality", key: "nationality" },
   { header: "Marital Status", key: "maritalStatus" },
   { header: "Favorite Color", key: "favoriteColor" },
-  { header: "Number of Children", key: "numberOfChildren" }
+  { header: "# childrens", key: "numberOfChildren" }
 ];
 
 

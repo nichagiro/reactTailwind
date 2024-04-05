@@ -82,5 +82,5 @@ export const sizeClass = {
   "sm": "py-2 text-sm",
 }
 
-export const styleButton = "px-3 rounded font-medium focus:outline-none focus:ring focus:ring"
+export const styleButton = "px-3 rounded font-medium"
 

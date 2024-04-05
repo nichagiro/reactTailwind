@@ -28,7 +28,7 @@ const Button: FC<Props> = ({ children, color, icon, size = "md", variant = "norm
       case "simple":
         return `${bgSimple[color]} border hover:text-white`
       default:
-        return `${bg[color]} text-white transition hover:scale-105 hover:shadow`
+        return `${bg[color]} text-white transition hover:scale-105 hover:shadow focus:outline-none focus:ring focus:ring`
     }
   }, [variant, color])
 
@@ -42,14 +42,15 @@ const Button: FC<Props> = ({ children, color, icon, size = "md", variant = "norm
         {
           loading ? (
             <>
-              <SpinIcon /> {children}
+              <SpinIcon className='w-4 h-4'/>
             </>
           ) : (
             <>
-              {icon && <ButtonIcon icon={icon} />} {children}
+              {icon && <ButtonIcon icon={icon} />}
             </>
           )
         }
+        {children}
       </div>
     </button>
   );

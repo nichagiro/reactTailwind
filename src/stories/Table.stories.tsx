@@ -13,6 +13,12 @@ const meta: Meta<typeof Table> = {
   argTypes:{
     excel:{
       description: "Export Button Excel"
+    },
+    multi:{
+      description: "Multiselect row"
+    },
+    resetSelection:{
+      description: "Remove selection in table"
     }
   }
 }
@@ -26,7 +32,7 @@ export const Example: Story = {
     data: data,
     excel: true,
     defaultSelects: [1,3,7, 5],
-    itemsPerPage: 7,
+    itemsPerPage: 5,
     multi: true,
     onSelect: row => console.log(row),
     resetSelection: false,

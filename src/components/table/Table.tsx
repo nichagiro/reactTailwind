@@ -39,20 +39,21 @@ interface TableRow {
 interface TableProps {
   columns: TableColumn[],
   data: TableRow[],
-  onSelect?: (rows: TableRow[]) => void,
+  color: ColorsList,
   defaultSelects?: Array<string | number>,
+  onSelect?: (rows: TableRow[]) => void,
   defaultOrder?: DefaultOrder,
   multi?: boolean,
   itemsPerPage?: number,
   excel?: boolean,
   resetSelection?: boolean,
-  color: ColorsList,
-  loading?: boolean
+  loading?: boolean,
+  headerText?: string
 }
 
 const Table: React.FC<TableProps> = ({
   columns, data, defaultSelects, onSelect, multi = false, color, loading = false,
-  defaultOrder, excel = true, resetSelection = false, itemsPerPage = 10
+  defaultOrder, excel = true, resetSelection = false, itemsPerPage = 10, headerText = false
 }) => {
   const [selectedRows, setSelectedRows] = useState<(Array<string | number>)>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -205,27 +206,37 @@ const Table: React.FC<TableProps> = ({
     <>
 
       <div className="container relative p-4 mx-auto border shadow rounded-lg overflow-x-auto">
-        <div className='flex flex-wrap gap-6 mb-6'>
-          {/* Input de búsqueda */}
-          <div>
-            <input
-              type='search'
-              placeholder='Buscar...'
-              className={`${inputClas} ${inputStyle[color]}`}
-              onChange={e => setSearchTerm(e.target.value)}
-            />
-          </div>
-          {
-            // excel button
-            excel &&
-            <div className='mt-1.5'>
-              <Button color={color} onClick={onExcel} type='button'>
-                <ExportIcon className='w-5 h-5' />
-                Excel
-              </Button>
+        {
+          data.length > 0 && <>
+            <div className='flex flex-wrap gap-6 mb-6'>
+              {/* Input de búsqueda */}
+              <div>
+                <input
+                  type='search'
+                  placeholder='Buscar...'
+                  className={`${inputClas} ${inputStyle[color]} p-3`}
+                  onChange={e => setSearchTerm(e.target.value)}
+                />
+              </div>
+              {
+                // excel button
+                excel &&
+                <div className='mt-1.5'>
+                  <Button color={color} onClick={onExcel} type='button'>
+                    <ExportIcon className='w-5 h-5' />
+                    Excel
+                  </Button>
+                </div>
+              }
             </div>
-          }
-        </div>
+            {
+              headerText &&
+              <div className='mb-5 ps-1 text-sm font-medium text-zinc-400'>
+                {headerText}
+              </div>
+            }
+          </>
+        }
         {/* Tabla */}
         <table className={`${loading ? "opacity-50" : "opacity-100"} min-w-full divide-y divide-gray-200 dark:divide-gray-700`}>
           <thead className="bg-gray-100">
@@ -251,13 +262,13 @@ const Table: React.FC<TableProps> = ({
                   className="px-4 py-3.5 cursor-pointer"
                   onClick={() => handleSort(column.key)}
                 >
-                  <div className='flex text-sm text-gray-500'>
+                  <div className='flex justify-center gap-x-0.5 text-sm text-gray-500'>
                     {/* icon order */}
                     {
                       sortedColumn === column.key
                         ? (sorting.direction === 'asc'
-                          ? <DownIcon className='w-4 h-4' />
-                          : <UpIcon className='w-4 h-4' />)
+                          ? <DownIcon className='w-3 h-3 mt-1' />
+                          : <UpIcon className='w-3 h-3 mt-1' />)
                         : ''
                     }
                     {column.header}
@@ -269,7 +280,7 @@ const Table: React.FC<TableProps> = ({
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700 border-none">
             {/* Renderizar filas de datos */}
             {filteredData.map((row, index) => (
-              <tr key={index} className={selectedRows.includes(row.id) ? `${bg[color]} border-none` : "border-none hover:bg-slate-100"}>
+              <tr key={index} className={selectedRows.includes(row.id) ? `${bg[color]} border-none transition-colors` : "border-none hover:bg-slate-100"}>
                 {/* Celda de checkbox para seleccionar/deseleccionar la fila */}
                 <td className="px-4 py-4 text-sm whitespace-nowrap text-center">
                   <input

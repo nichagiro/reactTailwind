@@ -91,6 +91,16 @@ export const IconSelect: Story = {
   }
 }
 
+export const Loading: Story = {
+  args: {
+    name: "inputIcon",
+    label: "Icon Select",
+    loading: true,
+    color: "pink",
+    options: colors.map(color => ({ value: color, name: color })),
+  }
+}
+
 
 export default meta;
 

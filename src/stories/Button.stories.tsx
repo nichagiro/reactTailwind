@@ -11,6 +11,9 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     children: {
       control: { disabled: true },
+    },
+    variant: {
+      defaultValue: "normal",
     }
   }
 }
